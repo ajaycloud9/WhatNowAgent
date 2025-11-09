@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "./lib/supabaseClient";
 import IdeaTable from "./components/IdeaTable";
+import ProgressDashboard from "./components/ProgressDashboard";
 
 export default function Home() {
   const [projects, setProjects] = useState([]);
@@ -17,8 +18,6 @@ export default function Home() {
           id,
           name,
           description,
-          sprint,
-          days_left,
           status,
           ideas (
             id,
@@ -51,60 +50,50 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 py-10">
       <h1 className="text-4xl font-bold text-center mb-10">🎯 WhatNow Dashboard</h1>
 
-      <div className="max-w-5xl mx-auto space-y-10 px-4">
+      <div className="max-w-6xl mx-auto space-y-10 px-4">
         {projects.length === 0 ? (
           <p className="text-center text-gray-500">
             No projects found. Run the sync script to import data.
           </p>
         ) : (
-          projects.map((project) => (
-            <div
-              key={project.id}
-              className="bg-white rounded-2xl shadow-md p-6 border border-gray-200"
-            >
-              {/* Project Header */}
-              <h2 className="text-2xl font-semibold mb-1">{project.name}</h2>
-              <p className="text-gray-600 mb-2">{project.description}</p>
+          <>
+            {/* Progress Dashboard */}
+            <ProgressDashboard projects={projects} />
 
-              {/* Project Metadata */}
-              <div className="text-sm mb-4 flex flex-wrap gap-3">
-                <div>
-                  <strong>Status:</strong> 
-                  <span className="ml-1 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
-                    {project.status}
-                  </span>
-                </div>
-                {project.days_left && (
-                  <div>
-                    <strong>Days Left:</strong> 
-                    <span className="ml-1 px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs">
-                      {project.days_left}
+            {/* Projects List */}
+            <div className="space-y-10">
+              {projects.map((project) => (
+                <div
+                  key={project.id}
+                  className="bg-white rounded-2xl shadow-md p-6 border border-gray-200"
+                >
+                  {/* Project Header */}
+                  <h2 className="text-2xl font-semibold mb-1">{project.name}</h2>
+                  <p className="text-gray-600 mb-2">{project.description}</p>
+
+                  {/* Project Metadata */}
+                  <div className="text-sm mb-4">
+                    <strong>Status:</strong> 
+                    <span className="ml-1 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                      {project.status ?? "—"}
                     </span>
                   </div>
-                )}
-                {project.sprint && (
-                  <div>
-                    <strong>Sprint:</strong> 
-                    <span className="ml-1 px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs">
-                      {project.sprint}
-                    </span>
-                  </div>
-                )}
-              </div>
 
-              {/* Ideas Table */}
-              {project.ideas && project.ideas.length > 0 ? (
-                <div className="mt-4">
-                  <h3 className="text-lg font-semibold mb-3">Ideas</h3>
-                  <IdeaTable ideas={project.ideas} />
+                  {/* Ideas Table */}
+                  {project.ideas && project.ideas.length > 0 ? (
+                    <div className="mt-4">
+                      <h3 className="text-lg font-semibold mb-3">Ideas</h3>
+                      <IdeaTable ideas={project.ideas} />
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 text-sm italic mt-4">
+                      No ideas added yet.
+                    </p>
+                  )}
                 </div>
-              ) : (
-                <p className="text-gray-500 text-sm italic mt-4">
-                  No ideas added yet.
-                </p>
-              )}
+              ))}
             </div>
-          ))
+          </>
         )}
       </div>
     </div>

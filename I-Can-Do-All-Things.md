@@ -30,8 +30,6 @@
 
 ### Project 1: NG-IAM
 **Description:** System Test for Identity Access Management.  
-**Sprint:** XCP Sprint 25-22  
-**Days Left:** 1 (ends 2025-11-07)
 **Status:** 🔄 In Progress
 
 #### Ideas

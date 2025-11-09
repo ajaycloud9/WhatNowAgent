@@ -33,8 +33,6 @@ async function syncReadme() {
         {
           name,
           description: meta.description,
-          sprint: meta.sprint,
-          days_left: meta.days_left,
           status: meta.status,
         },
         { onConflict: "name" }

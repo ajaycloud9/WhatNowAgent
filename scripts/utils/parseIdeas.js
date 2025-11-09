@@ -2,8 +2,6 @@
 export function extractProjectMetadata(blockText) {
   return {
     description: blockText.match(/\*\*Description:\*\*\s*(.+)/)?.[1]?.trim() || null,
-    sprint: blockText.match(/\*\*Sprint:\*\*\s*(.+)/)?.[1]?.trim() || null,
-    days_left: parseInt(blockText.match(/\*\*Days Left:\*\*\s*(\d+)/)?.[1]) || null,
     status: blockText.match(/\*\*Status:\*\*\s*(.+)/)?.[1]?.trim() || null,
   };
 }

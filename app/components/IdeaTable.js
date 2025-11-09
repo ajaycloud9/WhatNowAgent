@@ -1,3 +1,43 @@
+// Helper function to render markdown links as HTML
+function renderIdeaWithLinks(text) {
+  if (!text) return null;
+  
+  // Match markdown links: [text](url)
+  const parts = [];
+  let lastIndex = 0;
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let match;
+  
+  while ((match = regex.exec(text)) !== null) {
+    // Add text before the link
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    
+    // Add the link
+    parts.push(
+      <a
+        key={match.index}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 hover:text-blue-800 underline"
+      >
+        {match[1]}
+      </a>
+    );
+    
+    lastIndex = regex.lastIndex;
+  }
+  
+  // Add remaining text
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+  
+  return parts.length > 0 ? parts : text;
+}
+
 export default function IdeaTable({ ideas }) {
   return (
     <div className="overflow-x-auto">
@@ -31,7 +71,7 @@ export default function IdeaTable({ ideas }) {
                 {idea.idea_id}
               </td>
               <td className="px-4 py-3 text-sm text-gray-900">
-                {idea.idea}
+                {renderIdeaWithLinks(idea.idea)}
               </td>
               <td className="px-4 py-3 whitespace-nowrap text-sm">
                 <span className={`px-2 py-1 rounded text-xs font-medium ${

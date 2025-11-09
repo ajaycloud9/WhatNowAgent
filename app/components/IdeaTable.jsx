@@ -1,3 +1,43 @@
+// Helper function to render markdown links as HTML
+function renderIdeaWithLinks(text) {
+  if (!text) return null;
+  
+  // Match markdown links: [text](url)
+  const parts = [];
+  let lastIndex = 0;
+  const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+  let match;
+  
+  while ((match = regex.exec(text)) !== null) {
+    // Add text before the link
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    
+    // Add the link
+    parts.push(
+      <a
+        key={match.index}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-600 hover:text-blue-800 underline"
+      >
+        {match[1]}
+      </a>
+    );
+    
+    lastIndex = regex.lastIndex;
+  }
+  
+  // Add remaining text
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+  
+  return parts.length > 0 ? parts : text;
+}
+
 export default function IdeaTable({ ideas }) {
   return (
     <div className="overflow-x-auto">
@@ -19,7 +59,7 @@ export default function IdeaTable({ ideas }) {
               className="border-t border-gray-200 hover:bg-gray-50 transition"
             >
               <td className="px-3 py-2 font-mono text-gray-600">{idea.idea_id}</td>
-              <td className="px-3 py-2">{idea.idea}</td>
+              <td className="px-3 py-2">{renderIdeaWithLinks(idea.idea)}</td>
               <td className="px-3 py-2">{idea.status}</td>
               <td className="px-3 py-2">{idea.emotion}</td>
               <td className="px-3 py-2">{idea.difficulty}</td>
