@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "sync": "node scripts/sync.js",
+    "watch": "npx nodemon --watch I-Can-Do-All-Things.md --exec 'node scripts/sync.js'",
     "create-table": "node scripts/createTable.js",
     "insert-data": "node scripts/insertDummyData.js",
     "check-env": "node -e \"console.log(process.env.NEXT_PUBLIC_SUPABASE_URL ? '✅ Supabase URL loaded' : '⚠️ Missing Supabase env vars')\"",
@@ -34,5 +35,8 @@
     "automation"
   ],
   "author": "Ajay Singh",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }

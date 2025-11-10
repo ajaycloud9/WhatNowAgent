@@ -6,13 +6,13 @@
 ╔════════════════════════════════════════════════════════════════╗
 ║                     🎯 OVERALL PROGRESS                        ║
 ╠════════════════════════════════════════════════════════════════╣
-║  Total Ideas:     31                                           ║
+║  Total Ideas:     32                                           ║
 ║  Completed:       2  ✅                                        ║
-║  In Progress:     5  🔄                                        ║
+║  In Progress:     6  🔄                                        ║
 ║  Testing:         1  🧪                                        ║
 ║  To-Do:          23  ⬜                                        ║
 ╠════════════════════════════════════════════════════════════════╣
-║  Completion:      6.45% ▓░░░░░░░░░░░░░░░░                      ║
+║  Completion:      6.25% ▓░░░░░░░░░░░░░░░                      ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
 
@@ -20,7 +20,7 @@
 - **NG-IAM**: 14 ideas (2 ✅, 5 🔄, 1 🧪, 6 ⬜) • 14.29% complete
 - **AI Adoption**: 12 ideas (0 ✅, 0 🔄, 0 🧪, 12 ⬜) • 0% complete
 - **Observability**: 1 idea (0 ✅, 0 🔄, 0 🧪, 1 ⬜) • 0% complete
-- **Misc**: 4 ideas (0 ✅, 0 🔄, 0 🧪, 4 ⬜) • 0% complete
+- **Misc**: 5 ideas (0 ✅, 1 🔄, 0 🧪, 4 ⬜) • 0% complete
 
 **📅 Last Updated:** November 9, 2025
 
@@ -92,3 +92,4 @@
 | 2 | Ask pavan to complete about how's the prompt mode for the doc write is going | ⬜ | Follow-up, Writing | 😄 | 🟩 | 2025-11-06 |
 | 3 | Ask pankaj on did he able to configure MCP servers and able to create JIRAs etc | ⬜ | Follow-up, MCP, JIRA | 🤓 | 🟩 | 2025-11-06 |
 | 4 | Enter baking competition on Wed to win $500 prize | ⬜ | Baking, Competition, Personal | 🔥 | 🟩🟨🟨 | 2025-11-08 |
+| 5 | Host WhatNow Agent on Vercel with Supabase database as a service | 🔄 | Deployment, Cloud, Vercel, Supabase | 😄 | 🟩🟨🟨 | 2025-11-09 |

@@ -119,7 +119,46 @@ Each project has multiple ideas. Each idea has:
      
    - Response: Return **the full table row** of the suggested idea, including difficulty visualization.
 
-7. **Show backlog or worklog**
+7. **Classify ideas by age (staleness check)**
+   - Analyze the `Last Update` field to identify stale or abandoned ideas.
+   - Age classification rules based on days since last update:
+     - **🟢 Active** (< 7 days): Keep going, idea is fresh
+     - **🟡 Idle** (7-14 days): Add comment or update soon, needs attention
+     - **🟠 Rusted** (14-30 days): Review or re-scope, may need adjustment
+     - **🔴 Abandoned** (> 30 days): Consider moving to archive or mark as "Dormant"
+   - When user requests staleness analysis, generate a report showing:
+     - Count of ideas in each age category
+     - List of ideas grouped by age classification
+     - Recommended actions for each group
+   - Example commands:
+     
+     check staleness
+     
+     
+     check staleness
+     project: NG-IAM
+     
+   - Response format:
+     ```
+     ## 🕐 Staleness Report
+     
+     **Age Distribution:**
+     - 🟢 Active (< 7 days): X ideas
+     - 🟡 Idle (7-14 days): X ideas
+     - 🟠 Rusted (14-30 days): X ideas
+     - 🔴 Abandoned (> 30 days): X ideas
+     
+     **🟡 Idle Ideas (need attention):**
+     [List with Project, ID, Idea, Last Update, Days Old]
+     
+     **🟠 Rusted Ideas (need review):**
+     [List with Project, ID, Idea, Last Update, Days Old]
+     
+     **🔴 Abandoned Ideas (consider archiving):**
+     [List with Project, ID, Idea, Last Update, Days Old]
+     ```
+
+8. **Show backlog or worklog**
    - Backlog: all ⬜ To-Do ideas.
      
      show backlog
@@ -131,7 +170,7 @@ Each project has multiple ideas. Each idea has:
      project: NG-IAM
      
 
-8. **Sort ideas in a project**
+9. **Sort ideas in a project**
    - Sort ideas by difficulty (easiest to hardest or vice versa) or by status.
    - Sorting options:
      - `difficulty-asc`: Sort from easiest (🟩) to hardest (🟥)
@@ -146,7 +185,7 @@ Each project has multiple ideas. Each idea has:
    - Result: Reorder the ideas table in the specified project according to the sort criteria.
    - Note: This physically reorders the table rows and reassigns Idea IDs sequentially (1, 2, 3...) to maintain order.
 
-9. **Sync JIRA tasks to project**
+10. **Sync JIRA tasks to project**
    - Fetch JIRA tasks assigned to the current user and add them to a specified project.
    - **MCP Tool to use**: `mcp_jira-remote-m_jira_search_issues`
      - JQL Query format: `project = {jira_project} AND component = {component} AND assignee = currentUser() AND status != Done AND status != Closed`
@@ -215,13 +254,19 @@ When implementing the sync JIRA tasks functionality, use the following MCP tools
 8. Confirm actions before deletion if possible.  
 9. When suggesting tasks, consider both mood and difficulty level for better matching.
 10. When sorting ideas, reassign IDs sequentially (1, 2, 3...) after reordering to maintain clean numbering.
-11. Sorting by difficulty uses the number of emoji bars: 🟩 (1 bar) < 🟩🟨 (2 bars) < 🟩🟨🟨 (3 bars) < 🟩🟨🟧 (3 bars with orange) < 🟩🟨🟧🟥 (4 bars) < 🟩🟨🟧🟥🟥 (5 bars).
-12. **Progress Dashboard Format**: The dashboard uses ASCII box drawing characters and must maintain this exact structure:
+10. Sorting by difficulty uses the number of emoji bars: 🟩 (1 bar) < 🟩🟨 (2 bars) < 🟩🟨🟨 (3 bars) < 🟩🟨🟧 (3 bars with orange) < 🟩🟨🟧🟥 (4 bars) < 🟩🟨🟧🟥🟥 (5 bars).
+11. **Progress Dashboard Format**: The dashboard uses ASCII box drawing characters and must maintain this exact structure:
     - Box borders: `╔═╗║╠╣╚╝`
     - Progress bar: `▓` (filled) and `░` (empty) - 16 blocks total (each ≈ 6.25%)
     - Calculate percentage with 2 decimal places for accuracy
     - Update all sections: overall stats, progress bar, project breakdowns, and last updated date
-13. **Strikethrough Completed Ideas**: When an idea status is ✅ Done, always apply strikethrough formatting to the idea text using `~~text~~` syntax. When reopening an idea (✅ → ⬜), remove the strikethrough formatting.
+12. **Strikethrough Completed Ideas**: When an idea status is ✅ Done, always apply strikethrough formatting to the idea text using `~~text~~` syntax. When reopening an idea (✅ → ⬜), remove the strikethrough formatting.
+13. **Age-Based Classification**: When analyzing idea staleness, calculate days since last update based on current date and classify using these age ranges:
+    - 🟢 Active (< 7 days): Fresh, keep working
+    - 🟡 Idle (7-14 days): Needs attention soon
+    - 🟠 Rusted (14-30 days): Review or re-scope required
+    - 🔴 Abandoned (> 30 days): Consider archiving or marking as "Dormant"
+    This helps identify ideas that may need updates, re-evaluation, or removal.
 
 ---
 
@@ -300,7 +345,7 @@ by: status
 ```
 > Group ideas: 🔄 In Progress → ⬜ To-Do → 🧪 Testing → ✅ Done
 
-7. Sync JIRA tasks to a project (avoid duplicates):
+6. Sync JIRA tasks to a project (avoid duplicates):
 ```
 sync jira tasks
 project: NG-IAM
@@ -308,3 +353,15 @@ component: NG-IAM
 jira_project: XCP
 ```
 > Fetches JIRA tasks, checks for existing ticket keys, adds only new tasks with proper status/emotion/difficulty mapping, and updates dashboard
+
+7. Check for stale ideas:
+```
+check staleness
+```
+> Shows age distribution and lists ideas that need attention, review, or archiving
+
+```
+check staleness
+project: AI Adoption
+```
+> Shows staleness report for a specific project only
